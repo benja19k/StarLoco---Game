@@ -6,7 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.LoggerFactory;
 import org.starloco.locos.database.DAO;
 import org.starloco.locos.database.Database;
-import org.starloco.locos.kernel.Main;
+import org.starloco.locos.core.main.Main;
 
 import java.sql.*;
 

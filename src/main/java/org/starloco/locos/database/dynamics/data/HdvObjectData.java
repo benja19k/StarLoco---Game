@@ -3,9 +3,9 @@ package org.starloco.locos.database.dynamics.data;
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.Database;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.hdv.Hdv;
-import org.starloco.locos.hdv.HdvEntry;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.game.hdv.Hdv;
+import org.starloco.locos.game.hdv.HdvEntry;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,7 +56,7 @@ public class HdvObjectData extends AbstractDAO<Object> {
             p.setInt(2, toAdd.getOwner());
             p.setInt(3, toAdd.getPrice());
             p.setInt(4, toAdd.getAmount(false));
-            p.setInt(5, toAdd.getGameObject().getGuid());
+            p.setInt(5, toAdd.getGameObject().getId());
             execute(p);
             Database.getDynamics().getObjectTemplateData().saveAvgprice(toAdd.getGameObject().getTemplate());
             return true;

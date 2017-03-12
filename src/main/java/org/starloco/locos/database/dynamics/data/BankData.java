@@ -1,7 +1,7 @@
 package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.client.Account;
+import org.starloco.locos.game.client.Account;
 import org.starloco.locos.database.dynamics.AbstractDAO;
 
 import java.sql.PreparedStatement;

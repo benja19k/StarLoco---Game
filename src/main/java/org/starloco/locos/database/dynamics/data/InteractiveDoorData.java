@@ -1,8 +1,8 @@
 package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.area.map.entity.InteractiveDoor;
-import org.starloco.locos.area.map.entity.InteractiveObject.InteractiveObjectTemplate;
+import org.starloco.locos.game.area.map.entity.InteractiveDoor;
+import org.starloco.locos.game.area.map.entity.InteractiveObject.InteractiveObjectTemplate;
 import org.starloco.locos.database.dynamics.AbstractDAO;
 
 import java.sql.ResultSet;

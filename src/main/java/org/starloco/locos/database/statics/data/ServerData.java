@@ -2,8 +2,7 @@ package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.kernel.Config;
-import org.starloco.locos.kernel.Main;
+import org.starloco.locos.core.config.Config;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

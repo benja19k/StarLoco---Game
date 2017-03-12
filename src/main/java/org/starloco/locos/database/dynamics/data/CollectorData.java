@@ -1,11 +1,11 @@
 package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.area.map.GameMap;
-import org.starloco.locos.client.Player;
+import org.starloco.locos.game.area.map.GameMap;
+import org.starloco.locos.game.client.Player;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.entity.Collector;
-import org.starloco.locos.game.world.World;
+import org.starloco.locos.game.entity.Collector;
+import org.starloco.locos.game.world.world.World;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +24,7 @@ public class CollectorData extends AbstractDAO<Collector> {
     public boolean update(Collector P) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("UPDATE `percepteurs` SET `objets` = ?,`kamas` = ?,`xp` = ? WHERE guid = ?");
+            p = getPreparedStatement("UPDATE `percepteurs` SET `objets` = ?,`kamas` = ?,`xp` = ? WHERE id = ?");
             p.setString(1, P.parseItemCollector());
             p.setLong(2, P.getKamas());
             p.setLong(3, P.getXp());
@@ -62,7 +62,7 @@ public class CollectorData extends AbstractDAO<Collector> {
                     time = Long.parseLong(date);
                 }
 
-                World.world.addCollector(new Collector(RS.getInt("guid"), RS.getShort("mapid"), RS.getInt("cellid"), RS.getByte("orientation"), RS.getInt("guild_id"), RS.getShort("N1"), RS.getShort("N2"), perso, time, RS.getString("objets"), RS.getLong("kamas"), RS.getLong("xp")));
+                World.world.addCollector(new Collector(RS.getInt("id"), RS.getShort("mapid"), RS.getInt("cellid"), RS.getByte("orientation"), RS.getInt("guild_id"), RS.getShort("N1"), RS.getShort("N2"), perso, time, RS.getString("objets"), RS.getLong("kamas"), RS.getLong("xp")));
                 nbr++;
             }
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class CollectorData extends AbstractDAO<Collector> {
     public boolean delete(int id) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("DELETE FROM percepteurs WHERE guid = ?");
+            p = getPreparedStatement("DELETE FROM percepteurs WHERE id = ?");
             p.setInt(1, id);
             execute(p);
             return true;
@@ -119,10 +119,10 @@ public class CollectorData extends AbstractDAO<Collector> {
         Result result = null;
         int i = -50;//Pour �viter les conflits avec touts autre NPC
         try {
-            result = getData("SELECT `guid` FROM `percepteurs` ORDER BY `guid` ASC LIMIT 0 , 1");
+            result = getData("SELECT `id` FROM `percepteurs` ORDER BY `id` ASC LIMIT 0 , 1");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
-                i = RS.getInt("guid") - 1;
+                i = RS.getInt("id") - 1;
             }
         } catch (SQLException e) {
             super.sendError("PercepteurData getId", e);

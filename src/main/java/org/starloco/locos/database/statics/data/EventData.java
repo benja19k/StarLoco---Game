@@ -1,12 +1,12 @@
 package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.client.Account;
+import org.starloco.locos.game.client.Account;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.event.EventReward;
-import org.starloco.locos.event.type.Event;
-import org.starloco.locos.event.type.EventFindMe;
-import org.starloco.locos.event.type.EventSmiley;
+import org.starloco.locos.game.event.EventReward;
+import org.starloco.locos.game.event.type.Event;
+import org.starloco.locos.game.event.type.EventFindMe;
+import org.starloco.locos.game.event.type.EventSmiley;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

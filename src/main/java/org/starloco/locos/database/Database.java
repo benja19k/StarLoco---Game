@@ -3,7 +3,6 @@ package org.starloco.locos.database;
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.dynamics.DynamicsDatabase;
 import org.starloco.locos.database.statics.StaticsDatabase;
-import org.starloco.locos.kernel.Main;
 
 import java.sql.Connection;
 

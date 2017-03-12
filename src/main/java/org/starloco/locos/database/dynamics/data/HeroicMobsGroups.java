@@ -1,11 +1,11 @@
 package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.area.map.GameMap;
+import org.starloco.locos.game.area.map.GameMap;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.entity.monster.Monster;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.object.GameObject;
+import org.starloco.locos.game.entity.monster.Monster;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.game.object.GameObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,7 +50,7 @@ public class HeroicMobsGroups extends AbstractDAO<Object> {
             final StringBuilder objects = new StringBuilder(), groups = new StringBuilder();
 
             if(array != null) {
-                array.stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getGuid()));
+                array.stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getId()));
             }
             group.getMobs().values().stream().filter(monster -> monster != null).forEach(monster -> groups.append(groups.toString().isEmpty() ? "" : ";").append(monster.getTemplate().getId()).append(",").append(monster.getLevel()).append(",").append(monster.getLevel()));
 
@@ -73,7 +73,7 @@ public class HeroicMobsGroups extends AbstractDAO<Object> {
         PreparedStatement prepare = null;
         try {
             final StringBuilder objects = new StringBuilder(), groups = new StringBuilder();
-            group.getObjects().stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getGuid()));
+            group.getObjects().stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getId()));
             group.getMobs().values().stream().filter(monster -> monster != null).forEach(monster -> groups.append(groups.toString().isEmpty() ? "" : ";").append(monster.getTemplate().getId()).append(",").append(monster.getLevel()).append(",").append(monster.getLevel()));
 
             prepare = getPreparedStatement("UPDATE `heroic_mobs_groups` SET `objects` = ? WHERE `id` = ? AND `map` = ? AND `group` = ?;");
@@ -144,7 +144,7 @@ public class HeroicMobsGroups extends AbstractDAO<Object> {
         PreparedStatement prepare = null;
         try {
             final StringBuilder objects = new StringBuilder();
-            array.stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getGuid()));
+            array.stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getId()));
 
             prepare = getPreparedStatement("INSERT INTO `heroic_mobs_groups_fix` VALUES (?, ?, ?, ?)");
             prepare.setInt(1, map);
@@ -165,7 +165,7 @@ public class HeroicMobsGroups extends AbstractDAO<Object> {
             for(Map.Entry<String, ArrayList<GameObject>> entry : GameMap.fixMobGroupObjects.entrySet()) {
                 String[] split = entry.getKey().split(",");
                 final StringBuilder objects = new StringBuilder();
-                entry.getValue().stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getGuid()));
+                entry.getValue().stream().filter(object -> object != null).forEach(object -> objects.append(objects.toString().isEmpty() ? "" : ",").append(object.getId()));
 
                 prepare = getPreparedStatement("UPDATE `heroic_mobs_groups_fix` SET `objects` = ? WHERE `map` = ? AND `cell` = ? AND `group` = ?;");
                 prepare.setString(1, objects.toString());

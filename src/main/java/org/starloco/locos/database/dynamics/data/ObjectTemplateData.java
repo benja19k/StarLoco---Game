@@ -2,9 +2,9 @@ package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.kernel.Main;
-import org.starloco.locos.object.ObjectTemplate;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.core.main.Main;
+import org.starloco.locos.game.object.ObjectTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

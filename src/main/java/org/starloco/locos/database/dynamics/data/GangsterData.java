@@ -2,7 +2,7 @@ package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.entity.monster.boss.Bandit;
+import org.starloco.locos.game.entity.monster.boss.Bandit;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -2,7 +2,7 @@ package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.object.GameObject;
+import org.starloco.locos.game.object.GameObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +26,7 @@ public class ObvejivanData extends AbstractDAO<GameObject> {
         PreparedStatement p = null;
         try {
             p = getPreparedStatement("INSERT INTO `world.entity.obvijevans`(`id`, `template`) VALUES(?, ?);");
-            p.setInt(1, object.getGuid());
+            p.setInt(1, object.getId());
             p.setInt(2, obvijevan.getTemplate().getId());
             execute(p);
         } catch (Exception e) {
@@ -40,13 +40,13 @@ public class ObvejivanData extends AbstractDAO<GameObject> {
         Result result = null;
         int template = -1;
         try {
-            result = getData("SELECT * FROM `world.entity.obvijevans` WHERE `id` = '" + object.getGuid() + "';");
+            result = getData("SELECT * FROM `world.entity.obvijevans` WHERE `id` = '" + object.getId() + "';");
             ResultSet resultSet = result.resultSet;
 
             if (resultSet.next()) {
                 template = resultSet.getInt("template");
                 if (delete) {
-                    PreparedStatement ps = getPreparedStatement("DELETE FROM `world.entity.obvijevans` WHERE id = '" + object.getGuid() + "';");
+                    PreparedStatement ps = getPreparedStatement("DELETE FROM `world.entity.obvijevans` WHERE id = '" + object.getId() + "';");
                     execute(ps);
                 }
             }

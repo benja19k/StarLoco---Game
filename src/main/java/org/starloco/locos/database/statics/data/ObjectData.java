@@ -1,13 +1,11 @@
 package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.database.Database;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.exchange.transfer.DataQueue;
-import org.starloco.locos.exchange.transfer.DataType;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.kernel.Main;
-import org.starloco.locos.object.GameObject;
+import org.starloco.locos.core.network.login.transfer.DataType;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.core.main.Main;
+import org.starloco.locos.game.object.GameObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -83,7 +81,7 @@ public class ObjectData extends AbstractDAO<GameObject> {
             p.setInt(3, object.getPosition());
             p.setInt(4, object.getPuit());
             p.setString(5, object.parseToSave());
-            p.setInt(6, object.getGuid());
+            p.setInt(6, object.getId());
             execute(p);
             return true;
         } catch (SQLException e) {
@@ -105,7 +103,7 @@ public class ObjectData extends AbstractDAO<GameObject> {
         PreparedStatement p = null;
         try {
             p = getPreparedStatement("REPLACE INTO `world.entity.objects` VALUES (?, ?, ?, ?, ?, ?);");
-            p.setInt(1, object.getGuid());
+            p.setInt(1, object.getId());
             p.setInt(2, object.getTemplate().getId());
             p.setInt(3, object.getQuantity());
             p.setInt(4, object.getPosition());

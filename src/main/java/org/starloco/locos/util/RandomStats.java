@@ -1,6 +1,6 @@
 package org.starloco.locos.util;
 
-import org.starloco.locos.common.Formulas;
+import org.starloco.locos.game.common.Formulas;
 
 import java.util.ArrayList;
 

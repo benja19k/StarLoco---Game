@@ -1,11 +1,11 @@
 package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.client.Player;
+import org.starloco.locos.game.client.Player;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.guild.Guild;
-import org.starloco.locos.guild.GuildMember;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.game.guild.Guild;
+import org.starloco.locos.game.guild.GuildMember;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +35,7 @@ public class GuildMemberData extends AbstractDAO<Object> {
                 try {
                     Guild g = World.world.getGuild(RS.getInt("guild"));
                     if (g != null)
-                        g.addMember(RS.getInt("guid"), RS.getInt("rank"), RS.getByte("pxp"), RS.getLong("xpdone"), RS.getInt("rights"), RS.getString("lastConnection").replaceAll("-", "~"));
+                        g.addMember(RS.getInt("id"), RS.getInt("rank"), RS.getByte("pxp"), RS.getLong("xpdone"), RS.getInt("rights"), RS.getString("lastConnection").replaceAll("-", "~"));
                 } catch(Exception e) {
                     e.printStackTrace();
                 }
@@ -51,7 +51,7 @@ public class GuildMemberData extends AbstractDAO<Object> {
     public void delete(int id) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("DELETE FROM `guild_members` WHERE `guid` = ?");
+            p = getPreparedStatement("DELETE FROM `guild_members` WHERE `id` = ?");
             p.setInt(1, id);
             execute(p);
         } catch (SQLException e) {
@@ -106,7 +106,7 @@ public class GuildMemberData extends AbstractDAO<Object> {
         Result result = null;
         int guildId = -1;
         try {
-            result = getData("SELECT guild FROM `guild_members` WHERE guid="
+            result = getData("SELECT guild FROM `guild_members` WHERE id="
                     + guid);
             ResultSet GuildQuery = result.resultSet;
             boolean found = GuildQuery.first();
@@ -125,13 +125,13 @@ public class GuildMemberData extends AbstractDAO<Object> {
         int guildId = -1;
         int guid = -1;
         try {
-            result = getData("SELECT guild,guid FROM `guild_members` WHERE name='"
+            result = getData("SELECT guild,id FROM `guild_members` WHERE name='"
                     + name + "'");
             ResultSet GuildQuery = result.resultSet;
             boolean found = GuildQuery.first();
             if (found) {
                 guildId = GuildQuery.getInt("guild");
-                guid = GuildQuery.getInt("guid");
+                guid = GuildQuery.getInt("id");
             }
         } catch (SQLException e) {
             super.sendError("Guild_memberData isPersoInGuild", e);

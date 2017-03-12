@@ -2,9 +2,9 @@ package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.exchange.transfer.DataType;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.guild.Guild;
+import org.starloco.locos.core.network.login.transfer.DataType;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.game.guild.Guild;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

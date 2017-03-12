@@ -7,8 +7,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.slf4j.LoggerFactory;
 import org.starloco.locos.database.Database;
 import org.starloco.locos.database.dynamics.data.*;
-import org.starloco.locos.kernel.Config;
-import org.starloco.locos.kernel.Main;
+import org.starloco.locos.core.config.Config;
+import org.starloco.locos.core.main.Main;
 
 public class DynamicsDatabase {
     private static Logger logger = (Logger) LoggerFactory.getLogger(DynamicsDatabase.class);

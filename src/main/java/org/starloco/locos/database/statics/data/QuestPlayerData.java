@@ -1,12 +1,10 @@
 package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.client.Player;
+import org.starloco.locos.game.client.Player;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.exchange.transfer.DataQueue;
-import org.starloco.locos.exchange.transfer.DataType;
-import org.starloco.locos.kernel.Main;
-import org.starloco.locos.quest.QuestPlayer;
+import org.starloco.locos.core.network.login.transfer.DataType;
+import org.starloco.locos.game.quest.QuestPlayer;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,11 +1,11 @@
 package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.area.map.entity.Trunk;
+import org.starloco.locos.game.area.map.entity.Trunk;
 import org.starloco.locos.database.Database;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.kernel.Main;
+import org.starloco.locos.game.world.world.World;
+import org.starloco.locos.core.main.Main;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

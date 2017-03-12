@@ -1,6 +1,6 @@
 package org.starloco.locos.util.lang.type;
 
-import org.starloco.locos.kernel.Config;
+import org.starloco.locos.core.config.Config;
 import org.starloco.locos.util.lang.AbstractLang;
 
 /**

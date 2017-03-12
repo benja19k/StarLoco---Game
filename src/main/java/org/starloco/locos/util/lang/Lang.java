@@ -1,6 +1,6 @@
 package org.starloco.locos.util.lang;
 
-import org.starloco.locos.client.Player;
+import org.starloco.locos.game.client.Player;
 import org.starloco.locos.util.lang.type.English;
 import org.starloco.locos.util.lang.type.French;
 import org.starloco.locos.util.lang.type.Spanish;

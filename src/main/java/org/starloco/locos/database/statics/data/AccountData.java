@@ -2,11 +2,10 @@ package org.starloco.locos.database.statics.data;
 
 import ch.qos.logback.classic.Level;
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.client.Account;
+import org.starloco.locos.game.client.Account;
 import org.starloco.locos.database.Database;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.kernel.Config;
+import org.starloco.locos.game.world.world.World;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,15 +21,15 @@ public class AccountData extends AbstractDAO<Account> {
     public void load(Object id) {
         Result result = null;
         try {
-            result = super.getData("SELECT * FROM accounts WHERE guid = " + id.toString());
+            result = super.getData("SELECT * FROM accounts WHERE id = " + id.toString());
             ResultSet RS = result.resultSet;
 
             while (RS.next()) {
-                Account a = World.world.getAccount(RS.getInt("guid"));
+                Account a = World.world.getAccount(RS.getInt("id"));
                 if (a != null && a.isOnline())
                     continue;
 
-                Account C = new Account(RS.getInt("guid"), RS.getString("account").toLowerCase(), RS.getString("pseudo"), RS.getString("reponse"), (RS.getInt("banned") == 1), RS.getString("lastIP"), RS.getString("lastConnectionDate"), RS.getString("friends"), RS.getString("enemy"), RS.getInt("points"), RS.getLong("subscribe"), RS.getLong("muteTime"), RS.getString("mutePseudo"), RS.getString("lastVoteIP"), RS.getString("heurevote"));
+                Account C = new Account(RS.getInt("id"), RS.getString("account").toLowerCase(), RS.getString("pseudo"), RS.getString("reponse"), (RS.getInt("banned") == 1), RS.getString("lastIP"), RS.getString("lastConnectionDate"), RS.getString("friends"), RS.getString("enemy"), RS.getInt("points"), RS.getLong("subscribe"), RS.getLong("muteTime"), RS.getString("mutePseudo"), RS.getString("lastVoteIP"), RS.getString("heurevote"));
                 World.world.addAccount(C);
                 World.world.ReassignAccountToChar(C);
             }
@@ -48,7 +47,7 @@ public class AccountData extends AbstractDAO<Account> {
             ResultSet RS = result.resultSet;
             while (RS.next()) {
                 if(RS.getString("pseudo").isEmpty()) continue;
-                Account a = new Account(RS.getInt("guid"), RS.getString("account").toLowerCase(), RS.getString("pseudo"), RS.getString("reponse"), (RS.getInt("banned") == 1), RS.getString("lastIP"), RS.getString("lastConnectionDate"), RS.getString("friends"), RS.getString("enemy"), RS.getInt("points"), RS.getLong("subscribe"), RS.getLong("muteTime"), RS.getString("mutePseudo"), RS.getString("lastVoteIP"), RS.getString("heurevote"));
+                Account a = new Account(RS.getInt("id"), RS.getString("account").toLowerCase(), RS.getString("pseudo"), RS.getString("reponse"), (RS.getInt("banned") == 1), RS.getString("lastIP"), RS.getString("lastConnectionDate"), RS.getString("friends"), RS.getString("enemy"), RS.getInt("points"), RS.getLong("subscribe"), RS.getLong("muteTime"), RS.getString("mutePseudo"), RS.getString("lastVoteIP"), RS.getString("heurevote"));
                 World.world.addAccount(a);
             }
         } catch (Exception e) {
@@ -62,7 +61,7 @@ public class AccountData extends AbstractDAO<Account> {
         long subscribe = 0;
         Result result = null;
         try {
-            result = super.getData("SELECT guid, subscribe FROM accounts WHERE guid = " + id);
+            result = super.getData("SELECT id, subscribe FROM accounts WHERE id = " + id);
 
             if(result != null) {
                 ResultSet RS = result.resultSet;
@@ -82,10 +81,10 @@ public class AccountData extends AbstractDAO<Account> {
         Result result = null;
         Account a = null;
         try {
-            result = super.getData("SELECT guid, heurevote, lastVoteIP from accounts");
+            result = super.getData("SELECT id, heurevote, lastVoteIP from accounts");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
-                a = World.world.getAccount(RS.getInt("guid"));
+                a = World.world.getAccount(RS.getInt("id"));
                 if (a == null)
                     continue;
                 a.updateVote(RS.getString("heurevote"), RS.getString("lastVoteIP"));
@@ -106,7 +105,7 @@ public class AccountData extends AbstractDAO<Account> {
                     + acc.parseFriendListToDB() + "', enemy = '"
                     + acc.parseEnemyListToDB() + "', muteTime = '"
                     + acc.getMuteTime() + "', mutePseudo = '"
-                    + acc.getMutePseudo() + "' WHERE guid = '" + acc.getId()
+                    + acc.getMutePseudo() + "' WHERE id = '" + acc.getId()
                     + "'");
             execute(statement);
             return true;
@@ -121,7 +120,7 @@ public class AccountData extends AbstractDAO<Account> {
     public void updateLastConnection(Account compte) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("UPDATE accounts SET `lastIP` = ?, `lastConnectionDate` = ? WHERE `guid` = ?");
+            p = getPreparedStatement("UPDATE accounts SET `lastIP` = ?, `lastConnectionDate` = ? WHERE `id` = ?");
             p.setString(1, compte.getCurrentIp());
             p.setString(2, compte.getLastConnectionDate());
             p.setInt(3, compte.getId());
@@ -136,7 +135,7 @@ public class AccountData extends AbstractDAO<Account> {
     public void setLogged(int id, int logged) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("UPDATE `accounts` SET `logged` = ? WHERE `guid` = ?;");
+            p = getPreparedStatement("UPDATE `accounts` SET `logged` = ? WHERE `id` = ?;");
             p.setInt(1, logged);
             p.setInt(2, id);
             execute(p);
@@ -152,7 +151,7 @@ public class AccountData extends AbstractDAO<Account> {
         try {
             statement = getPreparedStatement("UPDATE accounts SET banned = '"
                     + (acc.isBanned() ? 1 : 0) + "', bannedTime = '"
-                    + time + "' WHERE guid = '" + acc.getId()
+                    + time + "' WHERE id = '" + acc.getId()
                     + "'");
             execute(statement);
             return true;
@@ -194,7 +193,7 @@ public class AccountData extends AbstractDAO<Account> {
     public void updatePointsWithoutUsersDb(int id, int points) {
         PreparedStatement p = null;
         try {
-            p = getPreparedStatement("UPDATE accounts SET `points` = ? WHERE `guid` = ?");
+            p = getPreparedStatement("UPDATE accounts SET `points` = ? WHERE `id` = ?");
             p.setInt(1, points);
             p.setInt(2, id);
             execute(p);
@@ -231,7 +230,7 @@ public class AccountData extends AbstractDAO<Account> {
         PreparedStatement p = null;
         int user = -1;
         try {
-            Result result = super.getData("SELECT guid, users FROM `accounts` WHERE `guid` LIKE '" + id + "'");
+            Result result = super.getData("SELECT id, users FROM `accounts` WHERE `id` LIKE '" + id + "'");
             ResultSet RS = result.resultSet;
             if (RS.next()) user = RS.getInt("users");
             close(result);

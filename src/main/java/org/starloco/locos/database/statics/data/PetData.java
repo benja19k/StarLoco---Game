@@ -1,13 +1,10 @@
 package org.starloco.locos.database.statics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.starloco.locos.database.Database;
 import org.starloco.locos.database.statics.AbstractDAO;
-import org.starloco.locos.entity.pet.PetEntry;
-import org.starloco.locos.exchange.transfer.DataQueue;
-import org.starloco.locos.exchange.transfer.DataType;
-import org.starloco.locos.game.world.World;
-import org.starloco.locos.kernel.Main;
+import org.starloco.locos.game.entity.pet.PetEntry;
+import org.starloco.locos.core.network.login.transfer.DataType;
+import org.starloco.locos.game.world.world.World;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -2,7 +2,7 @@ package org.starloco.locos.database.dynamics.data;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.database.dynamics.AbstractDAO;
-import org.starloco.locos.job.maging.Rune;
+import org.starloco.locos.game.job.maging.Rune;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
