@@ -1,5 +1,7 @@
 package org.starloco.locos.database.statics.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.zaxxer.hikari.HikariDataSource;
 import org.starloco.locos.game.client.Account;
 import org.starloco.locos.game.client.Player;
@@ -249,6 +251,9 @@ public class PlayerData extends AbstractDAO<Player> {
             return false;
         }
 
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new KotlinModule());
+
         PreparedStatement p = null;
         try {
             p = getPreparedStatement("UPDATE `players` SET `kamas`= ?, `spellboost`= ?, `capital`= ?, `energy`= ?, `level`= ?, `xp`= ?, `size` = ?, `gfx`= ?, `alignement`= ?, `honor`= ?, `deshonor`= ?, `alvl`= ?, `vitalite`= ?, `force`= ?, `sagesse`= ?, `intelligence`= ?, `chance`= ?, `agilite`= ?, `seeFriend`= ?, `seeAlign`= ?, `seeSeller`= ?, `canaux`= ?, `map`= ?, `cell`= ?, `pdvper`= ?, `spells`= ?, `objets`= ?, `storeObjets`= ?, `savepos`= ?, `zaaps`= ?, `jobs`= ?, `mountxpgive`= ?, `mount`= ?, `title`= ?, `wife`= ?, `morphMode`= ?, `allTitle` = ?, `emotes` = ?, `prison` = ?, `parcho` = ?, `timeDeblo` = ?, `noall` = ?, `deadInformation` = ?, `deathCount` = ?, `totalKills` = ? WHERE `players`.`id` = ? LIMIT 1");
@@ -287,7 +292,7 @@ public class PlayerData extends AbstractDAO<Player> {
             p.setString(27, player.parseObjetsToDB());
             p.setString(28, player.parseStoreItemstoBD());
             p.setString(29, player.getSavePosition());
-            p.setString(30, player.parseZaaps());
+            p.setString(30, mapper.writeValueAsString(player.getZaap()));
             p.setString(31, player.parseJobData());
             p.setInt(32, player.getMountXpGive());
             p.setInt(33, (player.getMount() != null ? player.getMount().getId() : -1));

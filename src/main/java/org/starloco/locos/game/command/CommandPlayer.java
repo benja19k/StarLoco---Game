@@ -1,5 +1,7 @@
 package org.starloco.locos.game.command;
 
+import org.starloco.locos.database.Database;
+import org.starloco.locos.database.statics.data.PlayerData;
 import org.starloco.locos.game.area.map.entity.House;
 import org.starloco.locos.game.client.Player;
 import org.starloco.locos.game.client.other.Party;
@@ -33,7 +35,7 @@ public class CommandPlayer {
             if (command(msg, "all") && msg.length() > 5) {
                 if (player.isInPrison())
                     return true;
-                if(canalMute && player.getGroupe() == null) {
+                if (canalMute && player.getGroupe() == null) {
                     player.sendMessage("Le canal est indisponible pour une durée indéterminée.");
                     return true;
                 }
@@ -109,6 +111,7 @@ public class CommandPlayer {
                 player.sendMessage(message);
                 return true;
             } else if (command(msg, "deblo")) {
+                Database.getStatics().getPlayerData().update(player);
                 if (player.cantTP())
                     return true;
                 if (player.getFight() != null)

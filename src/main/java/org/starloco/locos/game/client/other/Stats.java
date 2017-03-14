@@ -14,6 +14,7 @@ public class Stats {
 
     public Stats(Map<Integer, Integer> stats) {
         this.effects = stats;
+
     }
 
     public Stats(boolean addBases, Player player) {
@@ -40,12 +41,12 @@ public class Stats {
     }
 
     public Stats() { // Parchotage
-        this.effects.put(Constant.STATS_ADD_VITA, 0);
+        /*this.effects.put(Constant.STATS_ADD_VITA, 0);
         this.effects.put(Constant.STATS_ADD_SAGE, 0);
         this.effects.put(Constant.STATS_ADD_INTE, 0);
         this.effects.put(Constant.STATS_ADD_FORC, 0);
         this.effects.put(Constant.STATS_ADD_CHAN, 0);
-        this.effects.put(Constant.STATS_ADD_AGIL, 0);
+        this.effects.put(Constant.STATS_ADD_AGIL, 0);*/
     }
 
     public Stats(Guild guild) { // Stats collector in fight

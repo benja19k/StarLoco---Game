@@ -1,5 +1,8 @@
 package org.starloco.locos.game.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
+import lombok.Getter;
 import org.starloco.locos.game.area.map.GameCase;
 import org.starloco.locos.game.area.map.GameMap;
 import org.starloco.locos.game.area.map.entity.House;
@@ -54,6 +57,7 @@ import org.starloco.locos.game.quest.QuestPlayer;
 import org.starloco.locos.util.TimerWaiter;
 import org.starloco.locos.util.lang.Lang;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -61,6 +65,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 public class Player {
+    private static final ObjectMapper mapper = new ObjectMapper();
+    static {
+        mapper.registerModule(new KotlinModule());
+    }
 
 
     /** special fight **/
@@ -150,8 +158,9 @@ public class Player {
     private Mount _mount;
     private int _mountXpGive = 0;
     private boolean _onMount = false;
-    //Zaap
-    private ArrayList<Short> _zaaps = new ArrayList<Short>();
+
+    @Getter
+    private ZaapManager zaap;
     //Sort
     private Map<Integer, Spell.SortStats> _sorts = new HashMap<Integer, Spell.SortStats>();
     private Map<Integer, Character> _sortsPlaces = new HashMap<Integer, Character>();
@@ -234,7 +243,7 @@ public class Player {
                   byte seeAlign, byte seeSeller, String canaux, short map, int cell,
                   String stuff, String storeObjets, int pdvPer, String spells,
                   String savePos, String jobs, int mountXp, int mount, int honor,
-                  int deshonor, int alvl, String z, byte title, int wifeGuid,
+                  int deshonor, int alvl, String zaap, byte title, int wifeGuid,
                   String morphMode, String allTitle, String emotes, long prison,
                   boolean isNew, String parcho, long timeDeblo, boolean noall, String deadInformation, byte deathCount, long totalKills) {
         this.id = id;
@@ -255,6 +264,11 @@ public class Player {
         this.energy = energy;
         this.level = level;
         this.exp = exp;
+        try {
+            this.zaap = mapper.readValue(zaap,ZaapManager.class);
+        } catch (IOException e) {
+            this.zaap = new ZaapManager();
+        }
         if (mount != -1)
             this._mount = World.world.getMountById(mount);
         this._size = _size;
@@ -325,15 +339,7 @@ public class Player {
                     this.curCell = curMap.getCase(311);
                 }
             }
-            if (!z.equalsIgnoreCase("")) {
-                for (String str : z.split(",")) {
-                    try {
-                        _zaaps.add(Short.parseShort(str));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+
             if (!isNew && (curMap == null || curCell == null)) {
                 Main.INSTANCE.stop("Player2");
                 return;
@@ -3889,20 +3895,11 @@ public class Player {
         StringBuilder str = new StringBuilder();
         str.append(map);
 
-        int SubAreaID = curMap.getSubArea().getArea().getSuperArea();
-
-        for (short i : _zaaps) {
-            if (World.world.getMap(i) == null)
-                continue;
-            if (World.world.getMap(i).getSubArea().getArea().getSuperArea() != SubAreaID)
-                continue;
-            int cost = Formulas.calculZaapCost(curMap, World.world.getMap(i));
-            if (i == curMap.getId())
-                cost = 0;
-            str.append("|").append(i).append(";").append(cost);
-        }
+        zaap.getZaapPacket(str, curMap);
         return str.toString();
     }
+
+
 
     public String parsePrismesList() {
         String map = curMap.getId() + "";
@@ -3946,8 +3943,7 @@ public class Player {
     public void verifAndAddZaap(short mapId) {
         if (!verifOtomaiZaap())
             return;
-        if (!_zaaps.contains(mapId)) {
-            _zaaps.add(mapId);
+        if (zaap.learnZaap(mapId)) {
             SocketManager.GAME_SEND_Im_PACKET(this, "024");
             Database.getStatics().getPlayerData().update(this);
         }
@@ -3975,7 +3971,7 @@ public class Player {
             return;//S'il n'a pas ouvert l'interface Zaap(hack?)
         if (fight != null)
             return;//Si il combat
-        if (!_zaaps.contains(id))
+        if (zaap.isZaapKnown(id))
             return;//S'il n'a pas le zaap demand�(ne devrais pas arriver)
         int cost = Formulas.calculZaapCost(curMap, World.world.getMap(id));
         if (kamas < cost)
@@ -4037,21 +4033,6 @@ public class Player {
         this.teleport(Short.valueOf(packet.substring(2)), celdaID);
         SocketManager.SEND_Ww_CLOSE_Prisme(this);
         this.setExchangeAction(null);
-    }
-
-    public String parseZaaps() {
-        StringBuilder str = new StringBuilder();
-        boolean first = true;
-
-        if (_zaaps.isEmpty())
-            return "";
-        for (int i : _zaaps) {
-            if (!first)
-                str.append(",");
-            first = false;
-            str.append(i);
-        }
-        return str.toString();
     }
 
     public String parsePrisme() {

@@ -18,7 +18,6 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 
     public AbstractDAO(HikariDataSource dataSource) {
         this.dataSource = dataSource;
-        logger.setLevel(Level.OFF);
     }
 
     protected void execute(String query) {
@@ -58,19 +57,17 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 
     protected Result getData(String query) {
         synchronized (locker) {
-            Connection connection = null;
-            try {
+            try (Connection connection = dataSource.getConnection()){
                 if (!query.endsWith(";"))
                     query = query + ";";
-                connection = dataSource.getConnection();
                 Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 Result result = new Result(connection, statement.executeQuery(query));
                 logger.debug("SQL request executed successfully {}", query);
                 return result;
             } catch (SQLException e) {
                 logger.error("Can't execute SQL Request :" + query, e);
+                return null;
             }
-            return null;
         }
     }
 

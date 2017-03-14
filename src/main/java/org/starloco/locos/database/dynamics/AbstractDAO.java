@@ -18,8 +18,7 @@ public abstract class AbstractDAO<T> implements DAO<T> {
 
     public AbstractDAO(HikariDataSource dataSource) {
         this.dataSource = dataSource;
-        logger.setLevel(Level.OFF);
-}
+    }
 
     protected void execute(String query) {
         synchronized (locker) {

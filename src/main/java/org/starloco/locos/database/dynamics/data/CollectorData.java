@@ -62,7 +62,7 @@ public class CollectorData extends AbstractDAO<Collector> {
                     time = Long.parseLong(date);
                 }
 
-                World.world.addCollector(new Collector(RS.getInt("id"), RS.getShort("mapid"), RS.getInt("cellid"), RS.getByte("orientation"), RS.getInt("guild_id"), RS.getShort("N1"), RS.getShort("N2"), perso, time, RS.getString("objets"), RS.getLong("kamas"), RS.getLong("xp")));
+                World.world.addCollector(new Collector(RS.getInt("guid"), RS.getShort("mapid"), RS.getInt("cellid"), RS.getByte("orientation"), RS.getInt("guild_id"), RS.getShort("N1"), RS.getShort("N2"), perso, time, RS.getString("objets"), RS.getLong("kamas"), RS.getLong("xp")));
                 nbr++;
             }
         } catch (SQLException e) {
