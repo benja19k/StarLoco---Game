@@ -63,7 +63,7 @@ public class GameMap {
             }
 
             if(this.verify()) {
-                if(Config.INSTANCE.getAUTO_REBOOT()) {
+                if(Config.INSTANCE.isAutoReboot()) {
                     if (Reboot.check()) {
                         if ((System.currentTimeMillis() - Config.INSTANCE.getStartTime()) > 60000) {
                             for (Player player : World.world.getOnlinePlayers()) player.send(this.toString());
@@ -180,7 +180,7 @@ public class GameMap {
                 continue;
             if (World.world.getMonstre(id1).getGradeByLevel(lvl) == null)
                 continue;
-            if (Config.INSTANCE.getHALLOWEEN()) {
+            if (Config.INSTANCE.isHalloween()) {
                 switch (id1) {
                     case 98://Tofu
                         if (World.world.getMonstre(794) != null)
@@ -474,7 +474,7 @@ public class GameMap {
                 continue;
             if (World.world.getMonstre(id1).getGradeByLevel(lvl) == null)
                 continue;
-            if (Config.INSTANCE.getHALLOWEEN()) {
+            if (Config.INSTANCE.isHalloween()) {
                 switch (id1) {
                     case 98://Tofu
                         if (World.world.getMonstre(794) != null)
@@ -895,7 +895,7 @@ public class GameMap {
             if (!this.mobExtras.isEmpty()) {
                 for (Entry<Integer, Integer> entry : this.mobExtras.entrySet()) {
                     if (entry.getKey() == 499) // Si c'est un minotoboule de nowel
-                        if (!Config.INSTANCE.getNOEL()) // Si ce n'est pas nowel
+                        if (!Config.INSTANCE.isChristmas()) // Si ce n'est pas nowel
                             continue;
                     int random = Formulas.getRandomValue(0, 99);
                     while (entry.getValue() > random) {

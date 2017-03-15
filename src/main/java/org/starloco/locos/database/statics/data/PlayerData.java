@@ -49,7 +49,7 @@ public class PlayerData extends AbstractDAO<Player> {
             result = getData("SELECT * FROM players");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
-                if (RS.getInt("server") != Config.INSTANCE.getSERVER_ID())
+                if (RS.getInt("server") != Config.INSTANCE.getServerId())
                     continue;
 
                 HashMap<Integer, Integer> stats = new HashMap<Integer, Integer>();
@@ -81,7 +81,7 @@ public class PlayerData extends AbstractDAO<Player> {
             result = getData("SELECT * FROM players WHERE id = '" + obj + "'");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
-                if (RS.getInt("server") != Config.INSTANCE.getSERVER_ID())
+                if (RS.getInt("server") != Config.INSTANCE.getServerId())
                     continue;
 
                 HashMap<Integer, Integer> stats = new HashMap<Integer, Integer>();
@@ -130,7 +130,7 @@ public class PlayerData extends AbstractDAO<Player> {
             result = getData("SELECT * FROM players WHERE account = '" + id + "'");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
-                if (RS.getInt("server") != Config.INSTANCE.getSERVER_ID())
+                if (RS.getInt("server") != Config.INSTANCE.getServerId())
                     continue;
 
                 Player p = World.world.getPlayer(RS.getInt("id"));
@@ -206,7 +206,7 @@ public class PlayerData extends AbstractDAO<Player> {
             p.setInt(17, perso.getCurCell().getId());
             p.setInt(18, perso.getCurMap().getId());
             p.setString(19, perso.parseSpellToDB());
-            p.setInt(20, Config.INSTANCE.getSERVER_ID());
+            p.setInt(20, Config.INSTANCE.getServerId());
             execute(p);
             return true;
         } catch (SQLException e) {
@@ -453,7 +453,7 @@ public class PlayerData extends AbstractDAO<Player> {
         String servers = "";
         try {
             result = getData("SELECT server FROM players WHERE account = '"
-                    + account + "' AND NOT server = '" + Config.INSTANCE.getSERVER_ID() + "'");
+                    + account + "' AND NOT server = '" + Config.INSTANCE.getServerId() + "'");
             ResultSet RS = result.resultSet;
             while (RS.next()) {
                 servers += (servers.isEmpty() ? RS.getInt("server") : ","

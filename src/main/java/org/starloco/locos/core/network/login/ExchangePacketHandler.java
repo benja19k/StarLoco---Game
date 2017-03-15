@@ -43,7 +43,7 @@ public class ExchangePacketHandler {
                                 switch (packet.charAt(2)) {
                                     case '?': //Required
                                         int i = 50000 - GameServer.getClients().size();
-                                        ExchangeClient.INSTANCE.send("SK" + Config.INSTANCE.getSERVER_ID() + ";" + Config.INSTANCE.getSERVER_KEY() + ";" + i);
+                                        ExchangeClient.INSTANCE.send("SK" + Config.INSTANCE.getServerId() + ";" + Config.INSTANCE.getServerKey() + ";" + i);
                                         break;
 
                                     case 'K': //Ok

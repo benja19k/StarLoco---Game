@@ -118,7 +118,7 @@ public class GameClient {
             return;
         }
 
-        if(Config.INSTANCE.getAUTO_EVENT()) {
+        if(Config.INSTANCE.isAutoEvent()) {
             EventManager manager = EventManager.getInstance();
             if(manager.getState() == EventManager.State.STARTED) {
                 Event event = manager.getCurrentEvent();
@@ -499,7 +499,7 @@ public class GameClient {
             this.player = this.account.getPlayers().get(id);
             this.logger = LoggerFactory.getLogger(this.player.getName());
             if (this.player != null) {
-                if(this.player.isDead() == 1 && Config.INSTANCE.getHEROIC())
+                if(this.player.isDead() == 1 && Config.INSTANCE.isHeroic())
                     this.getSession().write("BN");
                 else
                     this.player.OnJoinGame();
@@ -531,7 +531,7 @@ public class GameClient {
 
                 logger.info("new account connected {} ", this.account.getName() + " > " + ip);
 
-                if(Config.INSTANCE.getENCRYPT_PACKET()){
+                if(Config.INSTANCE.getEncryptPacket()){
                     //String key = generateKey();
                     this.getSession().write("ATK18fd8ad4a38cdd0432248a76f8f148ceb");
                     this.preparedKeys = World.world.getCryptManager().prepareKey("8fd8ad4a38cdd0432248a76f8f148ceb");
@@ -6984,7 +6984,7 @@ public class GameClient {
 
     public void send(String packet) {
         try {
-            if (Config.INSTANCE.getENCRYPT_PACKET() && this.preparedKeys != null)
+            if (Config.INSTANCE.getEncryptPacket() && this.preparedKeys != null)
                 packet = World.world.getCryptManager().cryptMessage(packet, this.preparedKeys);
             this.getSession().write(packet);
         } catch(Exception e) {

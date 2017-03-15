@@ -97,7 +97,7 @@ public class FormuleOfficiel {
 
                 long total = (long) (((1 + (sagesse / 100)) * (1 + (challenge / 100)) * (1 + (star / 100))
                         * (bonus + rapport) * (nvGrpMonster) * (groupXp / sizeGroupe))
-                        * Config.INSTANCE.getRATE_XP() * World.world.getConquestBonus(fighter.getPlayer()));
+                        * Config.INSTANCE.getRateXp() * World.world.getConquestBonus(fighter.getPlayer()));
 
                 return total;
             }
@@ -182,7 +182,7 @@ public class FormuleOfficiel {
                 nvGrpMonster = 1;
 
             return (long) (((1 + ((sagesse + star + challenge) / 100))
-                    * (bonus + rapport) * (nvGrpMonster) * (groupXp / sizeGroupe)) * Config.INSTANCE.getRATE_XP());
+                    * (bonus + rapport) * (nvGrpMonster) * (groupXp / sizeGroupe)) * Config.INSTANCE.getRateXp());
         }
         return 0;
     }

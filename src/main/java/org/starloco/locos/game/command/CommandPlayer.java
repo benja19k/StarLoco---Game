@@ -1,7 +1,6 @@
 package org.starloco.locos.game.command;
 
 import org.starloco.locos.database.Database;
-import org.starloco.locos.database.statics.data.PlayerData;
 import org.starloco.locos.game.area.map.entity.House;
 import org.starloco.locos.game.client.Player;
 import org.starloco.locos.game.client.other.Party;
@@ -50,14 +49,14 @@ public class CommandPlayer {
 
                 player.getGameClient().timeLastTaverne = System.currentTimeMillis();
 
-                String prefix = "<font color='#C35617'>[" + (new SimpleDateFormat("HH:mm").format(new Date(System.currentTimeMillis()))) + "] (" + canal + ") (" + (Config.INSTANCE.getNAME().isEmpty() ? getNameServerById(Config.INSTANCE.getSERVER_ID()) : Config.INSTANCE.getNAME()) + ") <b><a href='asfunction:onHref,ShowPlayerPopupMenu," + player.getName() + "'>" + player.getName() + "</a></b>";
+                String prefix = "<font color='#C35617'>[" + (new SimpleDateFormat("HH:mm").format(new Date(System.currentTimeMillis()))) + "] (" + canal + ") (" + (Config.INSTANCE.getName().isEmpty() ? getNameServerById(Config.INSTANCE.getServerId()) : Config.INSTANCE.getName()) + ") <b><a href='asfunction:onHref,ShowPlayerPopupMenu," + player.getName() + "'>" + player.getName() + "</a></b>";
 
                 Loggers.globalMessage.info("{}:{}", player.getName(), msg.substring(5, msg.length() - 1));
 
                 final String message = "Im116;" + prefix + "~" + msg.substring(5, msg.length() - 1).replace(";", ":").replace("~", "").replace("|", "").replace("<", "").replace(">", "") + "</font>";
 
                 World.world.getOnlinePlayers().stream().filter(p -> !p.noall).forEach(p -> p.send(message));
-                ExchangeClient.INSTANCE.send("DM" + player.getName() + "|" + getNameServerById(Config.INSTANCE.getSERVER_ID()) + "|" + msg.substring(5, msg.length() - 1).replace("\n", "").replace("\r", "").replace(";", ":").replace("~", "").replace("|", "").replace("<", "").replace(">", "") + "|");
+                ExchangeClient.INSTANCE.send("DM" + player.getName() + "|" + getNameServerById(Config.INSTANCE.getServerId()) + "|" + msg.substring(5, msg.length() - 1).replace("\n", "").replace("\r", "").replace(";", ":").replace("~", "").replace("|", "").replace("<", "").replace(">", "") + "|");
                 return true;
             } else if (command(msg, "noall")) {
                 if (player.noall) {
@@ -226,7 +225,7 @@ public class CommandPlayer {
 
                 player.sendTypeMessage("Bank", "Le transfert a été effectué, " + count + " objet(s) ont été déplacés.");
                 return true;
-            }else if (Config.INSTANCE.getTEAM_MATCH() && command(msg, "kolizeum")) {
+            }else if (Config.INSTANCE.isTeamMatch() && command(msg, "kolizeum")) {
                 if (player.kolizeum != null) {
                     if (player.getParty() != null) {
                         if (player.getParty().isChief(player.getId())) {
@@ -262,7 +261,7 @@ public class CommandPlayer {
                     }
                 }
                 return true;
-            } else  if (Config.INSTANCE.getDEATH_MATCH() && command(msg, "deathmatch")) {
+            } else  if (Config.INSTANCE.isDeathMatch() && command(msg, "deathmatch")) {
                 if(player.cantTP()) return true;
                 if (player.deathMatch != null) {
                     FightManager.removeDeathMatch(player.deathMatch);

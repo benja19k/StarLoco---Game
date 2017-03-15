@@ -3,6 +3,7 @@ package org.starloco.locos.core.main
 import ch.qos.logback.classic.Logger
 import org.slf4j.LoggerFactory
 import org.starloco.locos.core.config.Config
+import org.starloco.locos.core.config.ConfigReader
 import org.starloco.locos.database.Database
 import org.starloco.locos.core.network.login.ExchangeClient
 import org.starloco.locos.game.area.map.GameMap
@@ -98,7 +99,7 @@ object Main {
 
             GameServer.INSTANCE.setState(0)
             WorldSave.cast(0)
-            if (!Config.HEROIC) {
+            if (!Config.isHeroic) {
                 Database.getDynamics().heroicMobsGroups.deleteAll()
                 for (map in World.world.maps) {
                     map.mobGroups.values.filterNot { it.isFix }.forEach { Database.getDynamics().heroicMobsGroups.insert(map.id, it, null) }
