@@ -477,7 +477,7 @@ public class Player {
     public static Player CREATE_PERSONNAGE(String name, int sexe, int classe,
                                            int color1, int color2, int color3, Account compte) {
         String z = "";
-        if (Config.INSTANCE.getALL_ZAAP()) {
+        if (Config.INSTANCE.isAllZaap()) {
             for (Entry<Integer, Integer> i : Constant.ZAAPS.entrySet()) {
                 if (z.length() != 0)
                     z += ",";
@@ -488,8 +488,8 @@ public class Player {
             return null;
         if (sexe < 0 || sexe > 1)
             return null;
-        int startMap = Config.INSTANCE.getSTART_MAP();
-        int startCell = Config.INSTANCE.getSTART_CELL();
+        int startMap = Config.INSTANCE.getStartMap();
+        int startCell = Config.INSTANCE.getStartCell();
         
         Player perso = new Player(Database.getStatics().getPlayerData().getNextId(), name, -1, sexe, classe, color1, color2, color3, Config.INSTANCE.getStartKamas(), ((Config.INSTANCE.getStartLevel() - 1)), ((Config.INSTANCE.getStartLevel() - 1) * 5), 10000, Config.INSTANCE.getStartLevel(), World.world.getPersoXpMin(Config.INSTANCE.getStartLevel()), 100, Integer.parseInt(classe
                 + "" + sexe), (byte) 0, compte.getId(), new HashMap<Integer, Integer>(), (byte) 1, (byte) 0, (byte) 0, "*#%!pi$:?", (startMap != 0 ? (short) startMap : Constant.getStartMap(classe)), (startCell != 0 ? (short) startCell : Constant.getStartCell(classe)),
@@ -497,7 +497,7 @@ public class Player {
                 //224,
                 "", "", 100, "", (startMap != 0 ? (short) startMap : Constant.getStartMap(classe))
                 + ","
-                + (startCell != 0 ? (short) startCell : Constant.getStartCell(classe)), "", 0, -1, 0, 0, 0, z, (byte) 0, 0, "0;0", "", Config.INSTANCE.getALL_EMOTE() ? "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21" : "0", 0, true, "118,0;119,0;123,0;124,0;125,0;126,0", 0, false, "0,0,0,0", (byte) 0, 0);
+                + (startCell != 0 ? (short) startCell : Constant.getStartCell(classe)), "", 0, -1, 0, 0, 0, z, (byte) 0, 0, "0;0", "", Config.INSTANCE.isAllEmote() ? "0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21" : "0", 0, true, "118,0;119,0;123,0;124,0;125,0;126,0", 0, false, "0,0,0,0", (byte) 0, 0);
         perso.emotes.add(1);
         perso._sorts = Constant.getStartSorts(classe);
         for (int a = 1; a <= perso.getLevel(); a++)
@@ -509,7 +509,7 @@ public class Player {
         if (!Database.getStatics().getPlayerData().add(perso))
             return null;
         World.world.addPlayer(perso);
-        if (Config.INSTANCE.getSERVER_KEY().equals("jiva")) {
+        if (Config.INSTANCE.getServerKey().equals("jiva")) {
             for (ObjectTemplate t : World.world.getItemSet(5).getItemTemplates()) {
                 GameObject obj = t.createNewItem(1, true);
                 if (perso.addObjet(obj, true))
@@ -1606,9 +1606,9 @@ public class Player {
         perso.append((color3 != -1 ? Integer.toHexString(color3) : "-1")).append(";");
         perso.append(getGMStuffString()).append(";");
         perso.append((this.isShowSeller() ? 1 : 0)).append(";");
-        perso.append(Config.INSTANCE.getSERVER_ID()).append(";");
+        perso.append(Config.INSTANCE.getServerId()).append(";");
 
-        if (this.dead == 1 && Config.INSTANCE.getHEROIC()) {
+        if (this.dead == 1 && Config.INSTANCE.isHeroic()) {
             perso.append(this.dead).append(";").append(this.deathCount);
         } else {
             perso.append(0);
@@ -1742,7 +1742,7 @@ public class Player {
         if (_morphMode)
             setFullMorph(_morphId, true, true);
 
-        if (Config.INSTANCE.getAUTO_REBOOT())
+        if (Config.INSTANCE.isAutoReboot())
             this.send(Reboot.toStr());
         if(Main.INSTANCE.getFightAsBlocked())
             this.sendServerMessage("You can't fight until new order.");
@@ -3950,7 +3950,7 @@ public class Player {
     }
 
     public boolean verifOtomaiZaap() {
-        return Config.INSTANCE.getALL_ZAAP() || !(this.getCurMap().getId() == 10643 || this.getCurMap().getId() == 11210)
+        return Config.INSTANCE.isAllZaap() || !(this.getCurMap().getId() == 10643 || this.getCurMap().getId() == 11210)
                 || World.world.getConditionManager().validConditions(this, "QT=231") && World.world.getConditionManager().validConditions(this, "QT=232");
     }
 
@@ -4518,7 +4518,7 @@ public class Player {
     public void setGhost() {
         if (isOnMount())
             toogleOnMount();
-        if(Config.INSTANCE.getHEROIC()) {
+        if(Config.INSTANCE.isHeroic()) {
             this.setGfxId(Integer.parseInt(this.getClasse() + "" + this.getSexe()));
             this.send("GO");
             return;

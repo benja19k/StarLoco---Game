@@ -168,9 +168,9 @@ public class EventManager extends Updatable {
 
     @Override
     public void update() {
-        if(Config.INSTANCE.getAUTO_EVENT() && this.verify()) {
+        if(Config.INSTANCE.isAutoEvent() && this.verify()) {
             if (this.state == State.WAITING) {
-                short result = (short) (Config.INSTANCE.getTIME_PER_EVENT() - (++count));
+                short result = (short) (Config.INSTANCE.getTimePerEvent() - (++count));
                 if (result == 0) {
                     this.count = 0;
                     this.lastTime = System.currentTimeMillis();
@@ -243,7 +243,7 @@ public class EventManager extends Updatable {
     }
 
     public static boolean isInEvent(Player player) {
-        if(Config.INSTANCE.getAUTO_EVENT() && EventManager.getInstance().getState() == State.STARTED)
+        if(Config.INSTANCE.isAutoEvent() && EventManager.getInstance().getState() == State.STARTED)
             for(Player target : EventManager.getInstance().getParticipants())
                 if(target.getId() == player.getId())
                     return true;

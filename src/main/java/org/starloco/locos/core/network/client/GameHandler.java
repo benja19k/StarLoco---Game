@@ -28,7 +28,7 @@ public class GameHandler implements IoHandler {
         GameClient client = (GameClient) arg0.getAttachment();
         String packet = (String) arg1;
 
-        if (Config.INSTANCE.getENCRYPT_PACKET() && !packet.startsWith("AT") && !packet.startsWith("Ak")) {
+        if (Config.INSTANCE.getEncryptPacket() && !packet.startsWith("AT") && !packet.startsWith("Ak")) {
             packet = World.world.getCryptManager().decryptMessage(packet, client.getPreparedKeys());
             if (packet != null) packet = packet.replace("\n", "");
             else packet = (String) arg1;
@@ -68,7 +68,7 @@ public class GameHandler implements IoHandler {
 
         if (client != null) {
             String packet = (String) arg1;
-            if (Config.INSTANCE.getENCRYPT_PACKET() && !packet.startsWith("AT") && !packet.startsWith("HG"))
+            if (Config.INSTANCE.getEncryptPacket() && !packet.startsWith("AT") && !packet.startsWith("HG"))
                 packet = World.world.getCryptManager().decryptMessage(packet, client.getPreparedKeys()).replace("\n", "");
             if (packet.startsWith("am")) return;
             client.logger.trace(" --> " + packet);

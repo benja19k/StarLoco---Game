@@ -200,7 +200,7 @@ public class World {
     }
 
     public void addMap(GameMap map) {
-        if(map.getSubArea() != null && map.getSubArea().getArea().getId() == 42 && !Config.INSTANCE.getNOEL())
+        if(map.getSubArea() != null && map.getSubArea().getArea().getId() == 42 && !Config.INSTANCE.isChristmas())
             return;
         maps.put(map.getId(), map);
     }

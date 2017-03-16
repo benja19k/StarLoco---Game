@@ -1080,7 +1080,7 @@ public class Fight {
         if (this.getType() == Constant.FIGHT_TYPE_PVM) {
             if (this.getMobGroup().isFix() && isCheckTimer() && this.getMapOld().getId() != 6826 && this.getMapOld().getId() != 10332 && this.getMapOld().getId() != 7388)
                 this.getMapOld().spawnAfterTimeGroupFix(this.getMobGroup().getCellId());// Respawn d'un groupe fix
-            if(!Config.INSTANCE.getHEROIC())
+            if(!Config.INSTANCE.isHeroic())
                 if (!this.getMobGroup().isFix() && this.isCheckTimer())
                     this.getMapOld().spawnAfterTimeGroup();// Respawn d'un groupe
         }
@@ -2781,7 +2781,7 @@ public class Fight {
     }
 
     public void onFighterDie(Fighter target, Fighter caster) {
-        if(Config.INSTANCE.getHEROIC()) {
+        if(Config.INSTANCE.isHeroic()) {
             Player player = caster.getPlayer(), deadPlayer = target.getPlayer();
 
             if(deadPlayer != null) {
@@ -3705,7 +3705,7 @@ public class Fight {
 
             if (player.isOnline())
                 SocketManager.GAME_SEND_Im_PACKET(player, "034;" + loose);
-            if(Config.INSTANCE.getHEROIC()) {
+            if(Config.INSTANCE.isHeroic()) {
                 if(fighter.killedBy != null)
                     player.die(fighter.killedBy.first, fighter.killedBy.second);
             } else {
@@ -4207,7 +4207,7 @@ public class Fight {
             Map<Player, String> list = null;
             ArrayList<GameObject> objects = null;
 
-            if(Config.INSTANCE.getHEROIC()) {
+            if(Config.INSTANCE.isHeroic()) {
                 switch(this.getType()) {
                     case Constant.FIGHT_TYPE_AGRESSION:
                         final ArrayList<GameObject> objects1 = new ArrayList<>();
@@ -4325,7 +4325,7 @@ public class Fight {
 
 
                             final double jet = Double.parseDouble(formatter.format(Math.random() * 100).replace(',', '.')),
-                                    chance = Double.parseDouble(formatter.format(drop.getLocalPercent() * prospecting * World.world.getConquestBonus(player) * challengeFactor * starFactor * Config.INSTANCE.getRATE_DROP()).replace(',', '.'));
+                                    chance = Double.parseDouble(formatter.format(drop.getLocalPercent() * prospecting * World.world.getConquestBonus(player) * challengeFactor * starFactor * Config.INSTANCE.getRateFarm()).replace(',', '.'));
                             boolean ok = false;
 
                             switch (drop.getAction()) {
@@ -4605,7 +4605,7 @@ public class Fight {
                                 }
                             }
 
-                            if (Config.INSTANCE.getHALLOWEEN()) {
+                            if (Config.INSTANCE.isHalloween()) {
                                 if ((bouftou > 0 || tofu > 0) && !player.hasEquiped(976)) {
                                     if (bouftou > tofu) {
                                         drops += (drops.length() > 0 ? "," : "") + "8169~1";
@@ -4719,7 +4719,7 @@ public class Fight {
                         temporary.append(winD);
                         temporary.append(";");
                         temporary.append(stalk ? "10275~" + quantity : "");
-                        if(Config.INSTANCE.getHEROIC() && list != null) {
+                        if(Config.INSTANCE.isHeroic() && list != null) {
                             String value;
                             if((value = list.get(player)) != null)
                                 if(!value.isEmpty())
@@ -5189,7 +5189,7 @@ public class Fight {
     public static Map<Player, String> give(ArrayList<GameObject> objects, ArrayList<Fighter> winners) {
         final Map<Player, String> list = new HashMap<>();
 
-        if(Config.INSTANCE.getHEROIC()) {
+        if(Config.INSTANCE.isHeroic()) {
             final ArrayList<Player> players = new ArrayList<>();
 
             new ArrayList<>(winners).stream().filter(fighter -> fighter != null).forEach(fighter -> {

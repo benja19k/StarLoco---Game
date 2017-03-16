@@ -97,7 +97,7 @@ public class WorldSave extends Updatable {
             }
 
             /*World.world.logger.info("-> of group-monsters.");
-            if(Config.INSTANCE.getHEROIC) {
+            if(Config.INSTANCE.isHeroic) {
                 for (GameMap map : World.world.getMaps())
                     map.getMobGroups().values().stream()
                             .filter(group -> !group.getObjects().isEmpty())

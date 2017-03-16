@@ -51,7 +51,7 @@ public class SocketManager {
     }
 
     public static void MULTI_SEND_Af_PACKET(GameClient out, int position, int totalAbo, int totalNonAbo, int button) {
-        send(out, "Af" + position + "|" + totalAbo + "|" + totalNonAbo + "|" + button + "|" + Config.INSTANCE.getSERVER_ID());
+        send(out, "Af" + position + "|" + totalAbo + "|" + totalNonAbo + "|" + button + "|" + Config.INSTANCE.getServerId());
     }
 
     public static void GAME_SEND_ATTRIBUTE_FAILED(GameClient out) {
