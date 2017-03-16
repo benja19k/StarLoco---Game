@@ -2158,27 +2158,25 @@ public class Fight {
         }
     }
 
-    public void toggleLockSpec(Player player) {
-        if ((this.getInit0() != null && this.getInit0().getId() == player.getId()) || (this.getInit1() != null && this.getInit1().getId() == player.getId())) {
-            this.setViewerOk(!this.isViewerOk());
-
-            if (!this.isViewerOk()) {
-                this.getViewer().values().stream().filter(target -> player.getGroupe() == null).forEach(target -> {
-                    SocketManager.GAME_SEND_GV_PACKET(target);
-                    this.getViewer().remove(target.getId());
-                    target.setFight(null);
-                    target.setAway(false);
-                    target.setSpec(false);
-                });
-                SocketManager.GAME_SEND_FIGHT_CHANGE_OPTION_PACKET_TO_MAP(player.getCurMap(), '+', 'S', player.getId());
-                this.getFighters(3).stream().filter(fighter -> fighter.getPlayer() != null).forEach(fighter -> fighter.getPlayer().send("Im040"));
-            } else {
-                SocketManager.GAME_SEND_FIGHT_CHANGE_OPTION_PACKET_TO_MAP(player.getCurMap(), '-', 'S', player.getId());
-                this.getFighters(3).stream().filter(fighter -> fighter.getPlayer() != null).forEach(fighter -> fighter.getPlayer().send("Im039"));
-            }
-        } else {
-            player.send("BN");
+    public synchronized void toggleLockSpec(Player player) {
+        //If the player is one of the initiator
+        if (getInit0() != null && getInit0().getId() == player.getId()
+                || getInit1() != null && getInit1().getId() == player.getId()) {
+            setViewerOk(!isViewerOk());
+            SocketManager.GAME_SEND_FIGHT_CHANGE_OPTION_PACKET_TO_MAP(getInit0().getPlayer().getCurMap(), isViewerOk() ? '+' : '-', 'S', getInit0().getId());
+            SocketManager.GAME_SEND_Im_PACKET_TO_FIGHT(this, 7, isViewerOk() ? "039" : "040");
         }
+
+        //Remove all guys actually spectating
+        getViewer().values().forEach(spectator -> {
+            if(spectator != null && spectator.getGroupe() == null) {
+                SocketManager.GAME_SEND_GV_PACKET(spectator);
+                getViewer().remove(spectator.getId());
+                spectator.setFight(null);
+                spectator.setSpec(false);
+                spectator.setAway(false);
+            }
+        });
     }
 
     public void toggleOnlyGroup(int guid) {
