@@ -2198,6 +2198,22 @@ public class World {
             this.first = s;
             this.second = i;
         }
+
+        public L getFirst() {
+            return first;
+        }
+
+        public R getSecond() {
+            return second;
+        }
+
+        public void setFirst(L first) {
+            this.first = first;
+        }
+
+        public void setSecond(R second) {
+            this.second = second;
+        }
     }
 
     public static class ExpLevel {
