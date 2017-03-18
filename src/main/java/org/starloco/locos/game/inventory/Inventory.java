@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by flore on 18/03/2017.
+ * Created by Locos on 18/03/2017.
  */
 public class Inventory implements IInventory {
 
@@ -16,12 +16,14 @@ public class Inventory implements IInventory {
     @Override
     public void addItem(GameObject item, int quantity) {
         int template = item.getTemplate().getId();
-        Couple<GameObject, Integer> couple = this.getItem(template);
+        List<Couple<GameObject, Integer>> list = this.getItems(template);
 
-        if(couple != null) {
-            if(couple.getFirst().isSameStats(item)) {
-                couple.setSecond(couple.getSecond() + quantity);
-                return;
+        for(Couple<GameObject, Integer> couple : list) {
+            if (couple != null) {
+                if (couple.getFirst().isSameStats(item)) {
+                    couple.setSecond(couple.getSecond() + quantity);
+                    return;
+                }
             }
         }
 
@@ -29,28 +31,42 @@ public class Inventory implements IInventory {
     }
 
     @Override
-    public void removeItem(int template, int quantity) {
-        Couple<GameObject, Integer> couple = this.getItem(template);
+    public void removeItem(GameObject item, int quantity) {
+        int template = item.getTemplate().getId();
+        List<Couple<GameObject, Integer>> list = this.getItems(template);
 
-        if(couple != null) {
-            if (quantity > couple.getSecond()) {
-                this.inventory.remove(couple);
-            } else {
-                couple.setSecond(couple.getSecond() - quantity);
+        for(Couple<GameObject, Integer> couple : list) {
+            if (couple != null && couple.getFirst().isSameStats(item)) {
+                this.remove(couple, quantity);
+                return;
             }
         }
     }
 
     @Override
-    public Couple<GameObject, Integer> getItem(int template) {
-        for (Couple<GameObject, Integer> pair : this.inventory) {
-            GameObject item = pair.getFirst();
+    public void removeItem(int template, int quantity) {
+        List<Couple<GameObject, Integer>> list = this.getItems(template);
 
-            if (item !=null && item.getTemplate() != null && item.getTemplate().getId() == template) {
-                return pair;
+        for(Couple<GameObject, Integer> couple : list) {
+            if (couple != null) {
+                this.remove(couple, quantity);
+                return;
             }
         }
-        return null;
+    }
+
+    @Override
+    public List<Couple<GameObject, Integer>> getItems(int template) {
+        List<Couple<GameObject, Integer>> items = new ArrayList<>();
+
+        for (Couple<GameObject, Integer> couple : this.inventory) {
+            GameObject item = couple.getFirst();
+
+            if (item != null && item.getTemplate() != null && item.getTemplate().getId() == template) {
+                items.add(couple);
+            }
+        }
+        return items;
     }
 
     @Override
@@ -64,5 +80,13 @@ public class Inventory implements IInventory {
             }
         }
         return pods;
+    }
+
+    private void remove(Couple<GameObject, Integer> couple, int quantity) {
+        if (quantity >= couple.getSecond()) {
+            this.inventory.remove(couple);
+        } else {
+            couple.setSecond(couple.getSecond() - quantity);
+        }
     }
 }
