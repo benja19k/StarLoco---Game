@@ -1,5 +1,6 @@
 package org.starloco.locos.game.client;
 
+import org.jetbrains.annotations.NotNull;
 import org.starloco.locos.game.command.administration.Group;
 import org.starloco.locos.game.common.SocketManager;
 import org.starloco.locos.database.Database;
@@ -36,11 +37,15 @@ public class Account {
     private List<Integer> enemys = new ArrayList<>();
     private Map<Integer, ArrayList<HdvEntry>> hdvsItems;
 
+    @NotNull
+    public final int adminLevel;
+
     public Account(int guid, String name, String pseudo,
                    String answer, boolean banned,
                    String lastIp, String lastConnectionDate, String friends,
                    String enemy, int points, long subscriber, long muteTime, String mutePseudo,
                    String lastVoteIP, String heureVote) {
+        this.adminLevel = 0;
         this.id = guid;
         this.name = name;
         this.pseudo = pseudo;

@@ -1,7 +1,9 @@
 package org.starloco.locos.core;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.starloco.locos.game.command.NewCommand;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -17,6 +19,6 @@ public class Loggers {
     public static final Logger command = LoggerFactory.getLogger("Command");
     public static final Logger tchat = LoggerFactory.getLogger("Tchat");
     public static final Logger craft = LoggerFactory.getLogger("Craft");
-
+    public static final Logger report = LoggerFactory.getLogger("Reports");
 
 }
