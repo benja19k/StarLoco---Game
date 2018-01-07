@@ -1090,6 +1090,10 @@ public class Player {
     }
 
     public long getKamas() {
+        if(this.getKamas()<0||
+           this.getKamas()==-1)  {
+           kamas=0;
+              }
         return kamas;
     }
 
